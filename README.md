@@ -116,6 +116,13 @@ Logged into `dev-account`  via **Switch Role** (`OrganizationAccountAccessRole`)
 
 
 ##  Screen Shot:
+ # 1:ou-structure:
+ 
+ # 2:scp-policies-list
+ # 3:policy-attachment
+ # 4:region-restriction-denied
+ # 5:ec2-large-instance-denied
+
 
 
 ### Test 1 — Region Restriction (unapproved region: Asia Pacific / Sydney)
