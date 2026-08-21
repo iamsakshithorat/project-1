@@ -85,27 +85,15 @@ Created three SCPs (JSON in `/scp-policies`) and attached them:
 ## 4. Policy Logic Explained
 
 ### 4.1 Deny Large EC2 Instance Types (Dev-Team-OU only)
-```json
-"Condition": {
-  "ForAnyValue:StringNotLike": {
-    "ec2:InstanceType": ["t2.micro","t2.small","t3.micro","t3.small","t3.medium"]
-  }
-}
-```
+This file on repo https://github.com/iamsakshithorat/project-1.git
 **Logic:** Deny `ec2:RunInstances` unless the requested instance type matches an approved "small" list. IAM permissions inside the Dev account are capped, not replaced — even a Dev IAM Admin cannot exceed this boundary, because SCPs are evaluated before IAM policies.
 
 ### 4.2 Deny Disabling CloudTrail (Organization Root — all accounts)
-```json
-"Action": ["cloudtrail:StopLogging","cloudtrail:DeleteTrail","cloudtrail:UpdateTrail","cloudtrail:PutEventSelectors","cloudtrail:RemoveTags"]
-```
+This file on repo https://github.com/iamsakshithorat/project-1.git
 **Logic:** Blocks the specific API calls that would stop, delete, modify, or de-scope CloudTrail logging across every account in the organization. CloudTrail is the backbone of incident response and compliance audits — if it can be disabled, every other control becomes unverifiable.
 
 ### 4.3 Restrict Approved Regions (Organization Root — all accounts)
-```json
-"Condition": {
-  "StringNotEquals": { "aws:RequestedRegion": ["us-east-1","us-east-2"] }
-}
-```
+This file on repo https://github.com/iamsakshithorat/project-1.git
 **Logic:** Denies most actions outside the approved regions (global services like IAM, Route 53, CloudFront, STS are excluded via `NotAction` since they aren't region-scoped). Prevents shadow-IT deployments in unapproved regions and keeps cost/monitoring centralized.
 
 ---
