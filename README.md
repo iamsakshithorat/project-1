@@ -4,9 +4,8 @@
 **Role:** Cloud Governance Engineer
 **Objective:** Implement centralized governance across Dev, Test, and Prod AWS accounts to enforce security, cost, and compliance policies.
 
-> **Note:** Account IDs and emails below are specific to this exercise's sandbox setup. Replace with your own values when adapting this design.
-
 ---
+
 
 ## 1. Problem Statement
 
@@ -25,7 +24,7 @@ The organization runs multiple AWS accounts (Dev, Test, Prod) with no centralize
 ```
                     ┌─────────────────────────┐
                     │   Management Account     │
-                    │   (Sakhi)                 │
+                    │                          │
                     └────────────┬─────────────┘
                                  │
         ┌────────────────────────┼────────────────────────┐
@@ -115,6 +114,10 @@ Created three SCPs (JSON in `/scp-policies`) and attached them:
 
 Logged into `dev-account`  via **Switch Role** (`OrganizationAccountAccessRole`) from the management account, then attempted two restricted actions.
 
+
+##  Screen Shot:
+
+
 ### Test 1 — Region Restriction (unapproved region: Asia Pacific / Sydney)
 Simply loading the EC2 dashboard while the session's region was set to **Asia Pacific (Sydney)** — outside the approved `us-east-1` / `us-east-2` list — triggered **"Access denied"** on nearly every EC2 resource type (Elastic IPs, Load balancers, Security groups, Snapshots, Volumes, etc.), confirming the `RestrictApprovedRegions` SCP was actively enforced without any explicit action needed.
 
@@ -122,23 +125,13 @@ Simply loading the EC2 dashboard while the session's region was set to **Asia Pa
 Switched to **US East (Ohio)** (an approved region) and attempted to launch an `m5.xlarge` instance (outside the allowed small-instance list). Result:
 
 ```
-Instance launch failed
-You are not authorized to perform this operation. User: arn:aws:iam::480747229246:root
-is not authorized to perform: ec2:RunInstances on resource: arn:aws:ec2:us-east-2:480747229246:instance/*
-with an explicit deny in a service control policy:
-arn:aws:organizations::241531302342:policy/o-n2hgrdmpni/service_control_policy/p-7jiv1i61
-```
-
-This confirms the `DenyLargeEC2InstanceDev` SCP is being enforced — even the account's own root user, which normally has unrestricted permissions, was blocked. The error message explicitly names the SCP policy ARN (`p-7jiv1i61`) responsible for the deny, which is the strongest form of enforcement proof available in AWS.
-
 | Test | Region | Action | Result |
 |---|---|---|---|
 | 1 | Asia Pacific (Sydney) — not approved | Load EC2 resources | Access denied (region SCP) |
 | 2 | US East (Ohio) — approved | Launch `m5.xlarge` instance | Access denied, explicit SCP deny (`p-7jiv1i61`) |
 
-**Screenshots captured:**
-- `screenshots/region-restriction-denied.png` — EC2 dashboard showing "Access denied" across resources while in an unapproved region
-- `screenshots/ec2-large-instance-denied.png` — Instance launch failure with the explicit SCP deny message
+### Screen Shot:
+
 
 ---
 
@@ -164,4 +157,5 @@ This confirms the `DenyLargeEC2InstanceDev` SCP is being enforced — even the a
 - **Separation of duties:** Developers retain IAM freedom within their sandbox; governance boundaries are enforced independently.
 
 ---
+
 
