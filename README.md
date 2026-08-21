@@ -120,11 +120,17 @@ Logged into `dev-account`  via **Switch Role** (`OrganizationAccountAccessRole`)
  
  # 2:scp-policies-list
  <img width="1912" height="970" alt="Image" src="https://github.com/user-attachments/assets/eca12d27-904d-4b00-8a9c-9c567c66eaf1" />
+
  # 3:policy-attachment
+ <img width="1911" height="978" alt="Image" src="https://github.com/user-attachments/assets/d6a97867-04dc-4721-bfe2-067974e17c89" />
+
  # 4:region-restriction-denied
+ <img width="1919" height="970" alt="Image" src="https://github.com/user-attachments/assets/2de46773-f885-483a-a107-3127e87f4e21" />
+
  # 5:ec2-large-instance-denied
+<img width="1913" height="975" alt="Image" src="https://github.com/user-attachments/assets/8e9f233a-fa3b-4166-b52b-4b89b5456cfb" />
 
-
+ 
 
 ### Test 1 — Region Restriction (unapproved region: Asia Pacific / Sydney)
 Simply loading the EC2 dashboard while the session's region was set to **Asia Pacific (Sydney)** — outside the approved `us-east-1` / `us-east-2` list — triggered **"Access denied"** on nearly every EC2 resource type (Elastic IPs, Load balancers, Security groups, Snapshots, Volumes, etc.), confirming the `RestrictApprovedRegions` SCP was actively enforced without any explicit action needed.
