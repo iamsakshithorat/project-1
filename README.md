@@ -119,6 +119,7 @@ Logged into `dev-account`  via **Switch Role** (`OrganizationAccountAccessRole`)
  # 1:ou-structure:
  
  # 2:scp-policies-list
+ <img width="1912" height="970" alt="Image" src="https://github.com/user-attachments/assets/eca12d27-904d-4b00-8a9c-9c567c66eaf1" />
  # 3:policy-attachment
  # 4:region-restriction-denied
  # 5:ec2-large-instance-denied
